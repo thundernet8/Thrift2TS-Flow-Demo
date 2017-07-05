@@ -1,6 +1,6 @@
-import clients from './clients'
+import clients from '../RPC-client1/clients'
 
-import ThriftBrowser from '../tmp'
+import ThriftBrowser from 'browser-thrift2'
 const { TJSONProtocol,
     TBufferedTransport,
     createWSConnection,

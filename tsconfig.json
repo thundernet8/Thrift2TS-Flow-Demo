@@ -11,10 +11,8 @@
     "strictNullChecks": false,
     "noUnusedLocals": false,
     "module": "es2015",
-    "lib": ["scripthost", "es5", "es2015", "dom"],
-    "outDir": "./tmp-js"
+    "lib": ["scripthost", "es5", "es2015", "dom"]
   },
-  "include": ["tmp"],
   "exclude": ["node_modules", "**/*.spec.ts?"],
   "typeRoots": ["node_modules/@types"]
 }
