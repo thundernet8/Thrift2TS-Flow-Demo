@@ -1,80 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Thrift2TS RPC Flow</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            .container>h2 {
-                text-align: center;
-            }
-            ul>li {
-                margin: 20px auto;
-            }
-            button {
-                padding: 0 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>Calculator</h2>
-            <ul>
-                <li>
-                    <label>Calculator.ping() -> </label>
-                    <button id="ping">Ping</button>
-                    <span class="result" id="pingResult"></span>
-                </li>
-                <li>
-                    <label>Calculator.add(num1, num2) -> </label>
-                    <input value="1" class="numInput" id="num1" />
-                    <input value="2" class="numInput" id="num2" />
-                    <button id="add">Add</button>
-                    <span class="result" id="addResult"></span>
-                </li>
-                <li>
-                    <label>Calculator.zip() -> </label>
-                    <button id="zip">Zip</button>
-                    <span class="result">This is a oneway call, no callback and response</span>
-                </li>
-            </ul>
+
+<head>
+    <title>Thrift2TS RPC Flow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container>h2 {
+            text-align: center;
+        }
+
+        ul>li {
+            margin: 20px auto;
+        }
+
+        button {
+            padding: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Calculator</h2>
+        <div>Choose a connection method: <select id="connSelect">
+                <option value="ws" selected>WebSocket</option>
+                <option value="xhr">XHR</option>
+                </select>
         </div>
-        <script>
-            var pingBtn = document.getElementById('ping')
-            var addBtn = document.getElementById('add')
-            var zipBtn = document.getElementById('zip')
-            var pingResultSpan = document.getElementById('pingResult')
-            var addResultSpan = document.getElementById('addResult')
-            var num1Input =document.getElementById('num1')
-            var num2Input =document.getElementById('num2')
+        <ul>
+            <li>
+                <label>Calculator.ping() -> </label>
+                <button id="ping">Ping</button>
+                <span class="result" id="pingResult"></span>
+            </li>
+            <li>
+                <label>Calculator.add(num1, num2) -> </label>
+                <input value="1" class="numInput" id="num1" />
+                <input value="2" class="numInput" id="num2" />
+                <button id="add">Add</button>
+                <span class="result" id="addResult"></span>
+            </li>
+            <li>
+                <label>Calculator.zip() -> </label>
+                <button id="zip">Zip</button>
+                <span class="result">This is a oneway call, no callback and response</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var pingBtn = document.getElementById('ping')
+        var addBtn = document.getElementById('add')
+        var zipBtn = document.getElementById('zip')
+        var pingResultSpan = document.getElementById('pingResult')
+        var addResultSpan = document.getElementById('addResult')
+        var num1Input = document.getElementById('num1')
+        var num2Input = document.getElementById('num2')
+        var connSelect = document.getElementById('connSelect')
 
-            pingBtn.addEventListener('click', function () {
-                pingResultSpan.innerText = ""
-                Calculator.ping().then(function (resp) {
-                    pingResultSpan.innerText = resp
-                }).catch(function (e) {
-                    alert(e.message)
-                })
-            })
+        function getCaculator() {
+            var connWay = connSelect.options[connSelect.selectedIndex].value
+            if (connWay !== 'ws') {
+                return Calculator2
+            }
+            return Calculator
+        }
 
-            addBtn.addEventListener('click', function () {
-                addResultSpan.innerText = ""
-                var num1 = Number(num1Input.value)
-                var num2 =Number(num2Input.value)
-                Calculator.add(num1, num2).then(function (resp) {
-                    addResultSpan.innerText =resp
-                }).catch(function (e) {
-                    alert(e.message)
-                })
+        pingBtn.addEventListener('click', function () {
+            pingResultSpan.innerText = ""
+            getCaculator().ping().then(function (resp) {
+                pingResultSpan.innerText = resp
+            }).catch(function (e) {
+                alert(e.message)
             })
+        })
 
-            zipBtn.addEventListener('click', function () {
-                Calculator.zip().then(function (resp) {
-                    alert(resp)
-                }).catch(function (e) {
-                    alert(e.message)
-                })
+        addBtn.addEventListener('click', function () {
+            addResultSpan.innerText = ""
+            var num1 = Number(num1Input.value)
+            var num2 = Number(num2Input.value)
+            getCaculator().add(num1, num2).then(function (resp) {
+                addResultSpan.innerText = resp
+            }).catch(function (e) {
+                alert(e.message)
             })
-        </script>
-    <script type="text/javascript" src="./client.js"></script></body>
+        })
+
+        zipBtn.addEventListener('click', function () {
+            getCaculator().zip().then(function (resp) {
+                alert(resp)
+            }).catch(function (e) {
+                alert(e.message)
+            })
+        })
+    </script>
+<script type="text/javascript" src="./client.js"></script><script type="text/javascript" src="./client2.js"></script></body>
+
 </html>
