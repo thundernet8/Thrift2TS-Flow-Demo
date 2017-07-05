@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress --hide-modules --config webpack.config.babel.js",
     "server": "node RPC-server/server.js",
-    "client": "node servefile.js"
+    "page": "node servefile.js"
   },
   "repository": "git@github.com:thundernet8/Thrift2TS-Flow-Demo.git",
   "author": "wuxueqian <wuxueqian2010@hotmail.com>",
@@ -19,7 +19,8 @@
     "buffer": "^5.0.6",
     "express": "^4.15.3",
     "html-webpack-plugin": "^2.29.0",
-    "thrift2ts": "^0.6.2",
+    "thrift": "^0.10.0",
+    "thrift2ts": "^0.6.6",
     "ts-loader": "^2.2.2",
     "typescript": "^2.4.1",
     "webpack": "^3.0.0"

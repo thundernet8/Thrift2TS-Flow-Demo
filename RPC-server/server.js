@@ -5,7 +5,7 @@ var ttypes = require("./gen-nodejs/tutorial_types");
 var httpServer = thrift.createWebServer({
     cors: { '*': true },
     services: {
-        '/thrift/rpc': {
+        '/rpc/Calculator': {
             transport: thrift.TBufferedTransport,
             protocol: thrift.TJSONProtocol,
             processor: Calculator,

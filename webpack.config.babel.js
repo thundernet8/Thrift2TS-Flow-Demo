@@ -8,8 +8,7 @@ export default {
         __dirname: false
     },
     entry: {
-        other: ["./test/other.js"],
-        client: ["babel-polyfill", "./test/client.js"]
+        client: ["babel-polyfill", "./RPC-client/client.ts"]
     },
     output: {
         path: path.resolve(__dirname, "./dist"),
@@ -37,7 +36,7 @@ export default {
     plugins: [
         new HtmlWebpackPlugin({
             filename: "index.html",
-            template: "./test/index.html",
+            template: "./index.html",
             inject: true
         })
     ]
